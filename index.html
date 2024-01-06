@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles/style.css" />
+    <title>Assignment & Lab Cover Generator</title>
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  </head>
+
+  <body>
+    <!-- Button to open the popup -->
+    <div class="container">
+      <button class="btn btn-success" onclick="togglePopup('assignment-popup')">
+        Assignment
+      </button>
+      <button class="btn btn-success" onclick="togglePopup('labcover-popup')">
+        Lab Cover(Individual)
+      </button>
+      <button
+        class="btn btn-success"
+        onclick="togglePopup('labcover-popup-group')"
+      >
+        Lab Cover(Group)
+      </button>
+      <button class="btn btn-success" onclick="togglePopup('sample-popup')">
+        Download Sample PDF
+      </button>
+    </div>
+
+    <!-- Popup assignment form -->
+    <div id="assignment-popup" class="popup">
+      <div class="popup-content">
+        <form method="post" class="form-container" id="formData">
+          <h1>Assignment</h1>
+          <div class="course_code">
+            <div class="form-floating">
+              <select class="form-select" id="course_code"></select>
+            </div>
+          </div>
+          <div class="teacher_name">
+            <div class="form-floating">
+              <select class="form-select" id="teacher_name"></select>
+            </div>
+          </div>
+          <label for="name">Assignment Name:</label><br />
+          <input
+            type="text"
+            id="assign_name"
+            name="assign_name"
+            required
+          /><br /><br />
+          <label for="roll_assign" class="roll_assign">Roll: </label><br />
+          <input
+            type="text"
+            id="roll"
+            name="roll_assign"
+            value="2103"
+            required
+          /><br /><br />
+          <label for="date_assign">Submission Date:</label><br />
+          <input
+            type="text"
+            id="date_assign"
+            name="date_assign"
+          /><br /><br />
+
+          <button
+            class="btn btn-success assgnr"
+            placeholder="Submit"
+            onclick="MakeAssignment()"
+            type="submit"
+          >
+            Generate PDF
+          </button>
+        </form>
+      </div>
+      <span class="close-btn" onclick="togglePopup('assignment-popup')"
+        >&times;</span
+      >
+    </div>
+
+    <!-- Popup lab cover form -->
+    <div id="labcover-popup" class="popup">
+      <div class="popup-content">
+        <form method="post" class="form-container" id="formDataLab">
+          <h1>Lab Cover</h1>
+          <div class="course_code">
+            <div class="form-floating">
+              <select class="form-select" id="course_code_lab"></select>
+            </div>
+          </div>
+          <div class="teacher_name">
+            <div class="form-floating">
+              <select class="form-select" id="teacher_name_lab"></select>
+            </div>
+          </div>
+          <label for="experiment_name">Experiment Name:</label><br />
+          <input
+            type="text"
+            id="experiment_name"
+            name="experiment_name"
+            required
+          /><br />
+          <label for="experiment_number">Experiment No:</label><br />
+          <input
+            type="text"
+            id="experiment_number"
+            name="experiment_number"
+            required
+          /><br /><br />
+          <label for="roll_lab" class="roll_lab">Roll: </label><br />
+          <input
+            type="text"
+            id="roll_lab"
+            name="roll_lab"
+            value="2103"
+            required
+          /><br />
+          <label for="date_lab_exp">Experiment Date:</label><br />
+          <input
+            type="text"
+            id="date_lab_exp"
+            name="date_lab_exp"
+          /><br />
+          <label for="date_lab">Submission Date:</label><br />
+          <input
+            type="text"
+            id="date_lab"
+            name="date_lab"
+          /><br /><br />
+
+          <button
+            class="btn btn-success labgnr"
+            placeholder="Submit"
+            onclick="MakeLabCover()"
+            type="submit"
+          >
+            Generate PDF
+          </button>
+        </form>
+      </div>
+      <span class="close-btn" onclick="togglePopup('labcover-popup')"
+        >&times;</span
+      >
+    </div>
+
+    <!-- Popup lab cover form -->
+    <div id="labcover-popup-group" class="popup">
+      <div class="popup-content popup-content-group">
+        <form method="post" class="form-container" id="formDataLabGroup">
+          <h1>Lab Cover(Group)</h1>
+
+          <div class="course_code">
+            <div class="form-floating">
+              <select
+                class="form-select form-select-group"
+                id="course_code_lab_group"
+              ></select>
+            </div>
+          </div>
+
+          <div class="teacher_name">
+            <div class="form-floating">
+              <select
+                class="form-select form-select-group"
+                id="teacher_name_lab_group"
+              ></select>
+            </div>
+          </div>
+
+          <label for="experiment_name_group">Experiment Name:</label><br />
+          <input
+            type="text"
+            id="experiment_name_group"
+            name="experiment_name_group"
+            required
+          /><br />
+
+          <label for="experiment_number_group">Experiment No:</label><br />
+          <input
+            type="text"
+            id="experiment_number_group"
+            name="experiment_number_group"
+            required
+          /><br />
+
+          <label for="roll_lab_group" class="roll_lab_group">Your Roll: </label>
+          <br />
+          <input
+            type="text"
+            id="roll_lab_group"
+            name="roll_lab_group"
+            oninput="fillRoll()"
+            ;
+            value="2103"
+            required
+          /><br />
+
+          <label for="roll_lab_group2" class="roll_lab">Teammates Roll: </label
+          ><br />
+          <input
+            type="text"
+            id="roll_lab_group2"
+            name="roll_lab_group2"
+            value="2103"
+            required
+          /><br />
+
+          <input
+            type="text"
+            id="roll_lab_group3"
+            name="roll_lab_group3"
+            value="2103"
+            required
+          /><br />
+
+          <input
+            type="text"
+            id="roll_lab_group4"
+            name="roll_lab_group4"
+            value="2103"
+            required
+          /><br />
+
+          <input
+            type="text"
+            id="roll_lab_group5"
+            name="roll_lab_group5"
+            value="2103"
+            required
+          /><br />
+
+          <label for="date_lab_exp">Experiment Date:</label><br />
+          <input
+            type="text"
+            id="date_lab_group_exp"
+            name="date_lab_exp"
+          /><br />
+
+          <label for="date_lab_sub">Submission Date:</label><br />
+          <input
+            type="text"
+            id="date_lab_group"
+            name="date_lab_sub"
+          /><br />
+
+          <button
+            class="btn btn-success labgnrgrp"
+            placeholder="Submit"
+            onclick="MakeLabCoverGroup()"
+            type="submit"
+          >
+            Generate PDF
+          </button>
+        </form>
+      </div>
+      <span class="close-btn" onclick="togglePopup('labcover-popup-group')"
+        >&times;</span
+      >
+    </div>
+
+    <!-- Popup sample form -->
+    <div id="sample-popup" class="popup">
+      <div class="popup-content">
+        <div class="form-container">
+          <button class="btn btn-success assdow" onclick="downloadAssignment()">
+            Assignment
+          </button>
+          <br />
+          <button class="btn btn-success labdow" onclick="downloadLabCover()">
+            Lab Cover(Individual)
+          </button>
+          <br />
+          <button
+            class="btn btn-success labdowgroup"
+            onclick="downloadLabCoverGroup()"
+          >
+            Lab Cover(Group)
+          </button>
+        </div>
+      </div>
+      <span class="close-btn" onclick="togglePopup('sample-popup')"
+        >&times;</span
+      >
+    </div>
+
+    <script>
+      const rollValue = localStorage.getItem("roll");
+
+      if (rollValue) {
+        document.getElementById("roll").value = rollValue;
+      }
+
+      const rollValue_lab = localStorage.getItem("roll_lab");
+
+      if (rollValue_lab) {
+        document.getElementById("roll_lab").value = rollValue_lab;
+      }
+
+      const rollSaved1 = localStorage.getItem("roll1");
+      if (rollSaved1) {
+        document.getElementById("roll_lab_group").value = rollSaved1;
+      }
+
+      const rollSaved2 = localStorage.getItem("roll2");
+      if (rollSaved2) {
+        document.getElementById("roll_lab_group2").value = rollSaved2;
+      }
+
+      const rollSaved3 = localStorage.getItem("roll3");
+      if (rollSaved3) {
+        document.getElementById("roll_lab_group3").value = rollSaved3;
+      }
+
+      const rollSaved4 = localStorage.getItem("roll4");
+      if (rollSaved1) {
+        document.getElementById("roll_lab_group4").value = rollSaved4;
+      }
+
+      const rollSaved5 = localStorage.getItem("roll5");
+      if (rollSaved5) {
+        document.getElementById("roll_lab_group5").value = rollSaved5;
+      }
+
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+      if (isMobile) {
+        var popupContent = document.querySelectorAll(".popup-content");
+        for (var i = 0; i < popupContent.length; i++) {
+          popupContent[i].style.transform = "scale(1.7)";
+          popupContent[i].style.maxWidth = "150%";
+        }
+
+        var openPopupContent = document.querySelectorAll(
+          ".popup.open .popup-content"
+        );
+        for (var i = 0; i < openPopupContent.length; i++) {
+          openPopupContent[i].style.transform = "scale(1.5)";
+        }
+
+        var openPopupContentGroup = document.querySelectorAll(
+          ".popup.open .popup-content-group"
+        );
+        for (var i = 0; i < openPopupContentGroup.length; i++) {
+          openPopupContentGroup[i].style.transform = "scale(1.35)";
+        }
+
+        var body = document.body;
+        body.style.backgroundImage =
+          "linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(199, 183, 183, 0.95))";
+
+        var btns = document.querySelectorAll(".btn");
+        for (var i = 0; i < btns.length; i++) {
+          btns[i].style.transform = "scale(1.3)";
+
+          btns[i].addEventListener("touchstart", function () {
+            this.style.transform = "scale(1.5)";
+          });
+
+          btns[i].addEventListener("touchend", function () {
+            this.style.transform = "scale(1.3)";
+          });
+        }
+      }
+
+      function togglePopup(popupId) {
+        const popup = document.getElementById(popupId);
+        popup.classList.toggle("open");
+      }
+
+      let teacher_list = {};
+      let course_details = {};
+      let course_details_lab = {};
+      let student_data = {};
+
+      fetch("https://violet-foal-shoe.cyclic.app/students")
+        .then((response) => response.json())
+        .then((data) => {
+          student_data = data;
+        })
+        .catch((error) => {
+          console.error("Error: ", error);
+        });
+
+      fetch("https://violet-foal-shoe.cyclic.app/teachers")
+        .then((response) => response.json())
+        .then((data) => {
+          teacher_list = data;
+          var options = "";
+          Object.keys(data).forEach((element) => {
+            options +=
+              "<option value='" +
+              element +
+              "'>" +
+              element +
+              " - " +
+              data[element]["name"] +
+              "</option>\n";
+          });
+          document.querySelector("#teacher_name").innerHTML = options;
+          document.querySelector("#teacher_name_lab").innerHTML = options;
+          document.querySelector("#teacher_name_lab_group").innerHTML = options;
+        })
+        .catch((error) => {
+          console.error("Error: ", error);
+        });
+
+      fetch("https://violet-foal-shoe.cyclic.app/courses")
+        .then((response) => response.json())
+        .then((data) => {
+          course_details = data;
+          var options = "";
+          Object.keys(data).forEach((element) => {
+            options +=
+              "<option value='" +
+              element +
+              "'>" +
+              data[element]["code"] +
+              "</option>\n";
+          });
+          document.querySelector("#course_code").innerHTML = options;
+        })
+        .catch((error) => {
+          console.error("Error: ", error);
+        });
+
+      fetch("https://violet-foal-shoe.cyclic.app/coursesLab")
+        .then((response) => response.json())
+        .then((data) => {
+          course_details_lab = data;
+          var options = "";
+          Object.keys(data).forEach((element) => {
+            options +=
+              "<option value='" +
+              element +
+              "'>" +
+              data[element]["code"] +
+              "</option>\n";
+          });
+          document.querySelector("#course_code_lab").innerHTML = options;
+          document.querySelector("#course_code_lab_group").innerHTML = options;
+        })
+        .catch((error) => {
+          console.error("Error: ", error);
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.js"></script>
+    <script src="scripts/printassign.js"></script>
+    <script src="scripts/printlab.js"></script>
+    <script src="scripts/printlabgroup.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
